@@ -1,9 +1,12 @@
+use filter_former::app::App;
 use std::io;
-use tui::{backend::CrosstermBackend, Terminal};
 
 fn main() -> Result<(), io::Error> {
-    let stdout = io::stdout();
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
-    Ok(())
+    let app = App::init()?;
+
+    let terminal = ratatui::init();
+    let app_result = app.run(terminal);
+
+    ratatui::restore();
+    app_result
 }
